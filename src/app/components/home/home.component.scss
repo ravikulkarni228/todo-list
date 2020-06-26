@@ -1,0 +1,14 @@
+//**************************** STYLING FOR Simple Application PARENT COMPONENT ****************************
+.task-manager-container {
+    .app-title {
+      background-color: #9370DB;
+      font-weight: bold;
+      .app-name {
+        background: -webkit-linear-gradient(#eff3f3, #f0f3f2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        padding: 10px;
+      }
+    }
+  }
