@@ -23,7 +23,7 @@ export class AddTaskDialogComponent implements OnInit {
   closeBtn = AppConstants.BUTTONS.CLOSE;
   saveBtn = AppConstants.BUTTONS.SAVE;
   taskRequiredError = AppConstants.ERRORMESSGES.TASKREQUIRED;
-  taskExistsError = AppConstants.ERRORMESSGES.TASKREQUIRED;
+  taskExistsError = AppConstants.ERRORMESSGES.TASKEXISTS;
 
   constructor(private activeModal: NgbActiveModal, private fb: FormBuilder, private logger: NGXLogger) {
     this.logger.debug('Loaded Add-task-dialog');

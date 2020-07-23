@@ -7,6 +7,7 @@ import { AppState } from '../../state/app.state'
 import { AddTaskDialogComponent } from '../dialogs/add-task-dialog/add-task-dialog.component';
 import { AppConstants } from '../../constants/app.constants';
 import { NGXLogger } from 'ngx-logger';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -19,8 +20,10 @@ export class HomeComponent implements OnInit {
   inProgressList = [];
   doneList = [];
   appName = AppConstants.LABLES.APPNAME
+  errorTitle = AppConstants.ERRORMESSGES.ERRORTITLE;
+  taskExistsError = AppConstants.ERRORMESSGES.TASKEXISTS;
 
-  constructor(private confirmationDialogService: ConfirmationDialogService, public modalService: NgbModal, public homeFacade: HomeFacade, private logger: NGXLogger) {
+  constructor(private confirmationDialogService: ConfirmationDialogService, private modalService: NgbModal, private homeFacade: HomeFacade, private logger: NGXLogger, private toastr: ToastrService) {
     this.logger.debug('Loaded HomeComponent');
     //subscribe state to get latest data from app state
     this.homeFacade.getState().subscribe((state: AppState) => {
@@ -52,7 +55,7 @@ export class HomeComponent implements OnInit {
     modalRef.result.then((result) => {
       if (!result.isError && result.task) {
         //update state after add task into lists
-        if ($event.selectedList == 'todo') {        
+        if ($event.selectedList == 'todo') {
           this.todoList.push(result.task);
           this.homeFacade.setTodoState(this.todoList);
           this.logger.info('onAddTask updated todoList', this.todoList);
@@ -68,8 +71,8 @@ export class HomeComponent implements OnInit {
           this.logger.info('onAddTask updated doneList', this.doneList);
         }
       }
-    }).catch((result) => {
-
+    }).catch((error) => {
+      this.logger.error('Error in fecthing result from add data Form', error);
     });
   }
 
@@ -131,33 +134,39 @@ export class HomeComponent implements OnInit {
         this.homeFacade.setDoneState(event.previousContainer.data);
       }
     } else {
-      //drop into another list
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+      //check if task already exits in other list then do not add
+      if ((event.previousContainer.data.some(item => event.container.data.includes(item)))) {
+        this.toastr.error(this.taskExistsError, this.errorTitle);
+      } else {
+        //drop into another list
+        transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
 
-      //update state of old list data (from which task selected)
-      if (event.previousContainer.id == 'todo') {
-        this.homeFacade.setTodoState(event.previousContainer.data);
-      }
-      if (event.previousContainer.id == 'inProgress') {
-        this.homeFacade.setInprogressState(event.previousContainer.data);
-      }
-      if (event.previousContainer.id == 'done') {
-        this.homeFacade.setDoneState(event.previousContainer.data);
+        //update state of old list data (from which task selected)
+        if (event.previousContainer.id == 'todo') {
+          this.homeFacade.setTodoState(event.previousContainer.data);
+        }
+        if (event.previousContainer.id == 'inProgress') {
+          this.homeFacade.setInprogressState(event.previousContainer.data);
+        }
+        if (event.previousContainer.id == 'done') {
+          this.homeFacade.setDoneState(event.previousContainer.data);
+        }
+
+        //update state of new list data (in which task dropped)
+        if (event.container.id == 'todo') {
+          this.homeFacade.setTodoState(event.container.data);
+        }
+        if (event.container.id == 'inProgress') {
+          this.homeFacade.setInprogressState(event.container.data);
+        }
+        if (event.container.id == 'done') {
+          this.homeFacade.setDoneState(event.container.data);
+        }
       }
 
-      //update state of new list data (in which task dropped)
-      if (event.container.id == 'todo') {
-        this.homeFacade.setTodoState(event.container.data);
-      }
-      if (event.container.id == 'inProgress') {
-        this.homeFacade.setInprogressState(event.container.data);
-      }
-      if (event.container.id == 'done') {
-        this.homeFacade.setDoneState(event.container.data);
-      }
     }
   }
 

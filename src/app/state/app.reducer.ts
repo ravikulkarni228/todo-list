@@ -1,26 +1,20 @@
-import { combineReducers } from '@ngrx/store';
 import { tassign } from 'tassign';
 import { Task } from '../models/task.model';
-import {
-  TaskActions,
-  TaskActionTypes
-} from './app.action';
-
-
+import { TaskActions, TaskActionTypes } from './app.action';
 
 let todoList = [];
 let inProgressList = [];
 let doneList = [];
 let localStorageState = JSON.parse(localStorage.getItem("state"));
 
-if(localStorageState){
-  todoList =  localStorageState.task.todoList;
+if (localStorageState) {
+  todoList = localStorageState.task.todoList;
   inProgressList = localStorageState.task.inProgressList
   doneList = localStorageState.task.doneList
 }
 
 /**
- *  set initial state of tasks  - Setting data from localstorate since we dont have API call to update data
+ *  set initial state of tasks  - Setting data from localstorate since we dont have API call to update data on refresh page
  */
 const initialTaskState: Task = { todoList: todoList, inProgressList: inProgressList, doneList: doneList };
 
@@ -38,12 +32,4 @@ export function taskReducer(state = initialTaskState, action: TaskActions): Task
     default:
       return state;
   }
-}
-
-const reducers = {
-  task: taskReducer
-};
-
-export function AppReducer(state: any, action: any) {
-  return combineReducers(reducers);
 }

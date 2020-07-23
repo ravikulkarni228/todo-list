@@ -1,16 +1,17 @@
-// Import Google Fonts
+// Import font-awesome
 @import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
-
+@import url("../node_modules/ngx-toastr/toastr.css");
 /* GLOBAL STYLES */
 html,
 body {
   height: 100%;
-  background-color:#E6E6FA !important;
+  background: #E6E6FA !important;
+  overflow-y: auto;
 }
 
 html {
   background-size: cover;
-  overflow-y: auto !important;
+  
 }
 
 a:hover {

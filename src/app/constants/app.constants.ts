@@ -7,9 +7,9 @@ export class AppConstants {
   */
     public static LABLES = class {
         public static APPNAME = 'Task Manager';
-        public static TODOLIST = 'To Do';
-        public static INPRGOGRESSLIST = 'In Progress';
-        public static DONELIST = 'Done';
+        public static TODOLIST = 'TODO';
+        public static INPRGOGRESSLIST = 'IN PROGRESS';
+        public static DONELIST = 'DONE';
         public static ADDTASK = 'Add New Task';
         public static ENTERTASK = 'Enter Task';
         public static ADDCARD = '+ Add Card';
@@ -38,8 +38,9 @@ export class AppConstants {
    * ERROR MESSGES
    */
     public static ERRORMESSGES = class {
+        public static ERRORTITLE = 'ERROR';
         public static TASKREQUIRED = 'Task is required';
-        public static TASKEXISTS = 'Task already Exists';
+        public static TASKEXISTS = 'Task already Exists in list';
     }
 
 }

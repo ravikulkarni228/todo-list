@@ -7,28 +7,21 @@
     margin: 15px 0;
     background-color: transparent;
     .card-body {
-      
       background-color: #C8C8C8;
       border: 2px solid black;
       border-radius: 0.25rem;
       .card-title {
         padding: 0.75rem;
+        color: black;
         overflow: auto;
         text-align: center;
       }
-      .cdk-drag {
-        cursor: pointer;
-      }
       .card-text {
-        cursor: default;
-       
-        height: 100%;
-        width: 100%;
         color: black;
         overflow: auto;
         .task {
           padding: 15px 12px;
-          background: rgb(252, 250, 250);
+          background: white;
           border-bottom: solid 1px #ddd;
           border-radius: 4px;
           margin-bottom: 15px;
@@ -41,14 +34,31 @@
             float: right;
           }
           .fa-trash {
-            color: rgb(235, 49, 49);
+            color: red;
             cursor: pointer;
           }
         }
       }
     }
   }
-  .add-task{
-    color: rgb(88, 140, 235)
+}
+
+.cdk-drag-preview {
+  padding: 15px 12px;
+  background: white;
+  border-bottom: solid 1px #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.05), 0 3px 14px 2px rgba(0, 0, 0, 0.05);
+  overflow: auto;
+  .task-name {
+    float: left;
+  }
+  .remove-icon {
+    float: right;
+  }
+  .fa-trash {
+    color: red;
+    cursor: pointer;
   }
 }
